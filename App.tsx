@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   View,
   Text,
@@ -8,12 +7,29 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import React, {useState, useEffect} from 'react';
 
 const App = () => {
-  const [num1, setnum1] = React.useState('');
-  const [num2, setnum2] = React.useState('');
-  const [operator, setOperator] = React.useState('');
-  const [result, setResult] = React.useState('');
+  const [num1, setnum1] = useState('');
+  const [num2, setnum2] = useState('');
+  const [operator, setOperator] = useState('');
+  const [result, setResult] = useState('');
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products/', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(res => {
+        setProduct(res);
+      })
+      .catch(error => Alert.alert(error));
+  }, []);
 
   const Cal = () => {
     if (
